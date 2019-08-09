@@ -75,7 +75,7 @@
             <option value="4">4</option>
             <option value="5">5 (Strongly Agree)</option>
         </select>
-        
+
         <h3><strong>Question 5</strong></h3>
         <h4>Your head is usually in the clouds.</h4>
         <select class="chosen-select" id="q5">
@@ -160,4 +160,56 @@
 </body>
 
 </div>
+
 </body>
+
+</html>
+
+<script>
+    $("#submit").on("click", function (event) {
+
+        event.preventDefault();
+
+        var newFriend = {
+            name: $("#name").val().trim(),
+            image: $("#image").val().trim(),
+            q1: $("#q1").val().trim(),
+            q2: $("#q2").val().trim(),
+            q3: $("#q3").val().trim(),
+            q4: $("#q4").val().trim(),
+            q5: $("#q5").val().trim(),
+            q6: $("#q6").val().trim(),
+            q7: $("#q7").val().trim(),
+            q8: $("#q8").val().trim(),
+            q9: $("#q9").val().trim(),
+            q10: $("#q10").val().trim()
+        }
+
+        console.log(newFriend);
+
+        if (newFriend.name && newFriend.image && newFriend.q1 && newFriend.q2 && newFriend.q3 && newFriend.q4 && newFriend.q5 && newFriend.q6 && newFriend.q7 && newFriend.q8 && newFriend.q9 && newFriend.q10) {
+
+            $.post("/api/friends", newFriend, function (data) {
+                alert("We found you somepony!");
+
+                $("#name").val("");
+                $("#image").val("");
+                $("#q1").val("");
+                $("#q2").val("");
+                $("#q3").val("");
+                $("#q4").val("");
+                $("#q5").val("");
+                $("#q6").val("");
+                $("#q7").val("");
+                $("#q8").val("");
+                $("#q9").val("");
+                $("#q10").val("");
+
+            })
+
+        } else {
+            alert("You're missing a required field!");
+        }
+    })
+
+</script>
