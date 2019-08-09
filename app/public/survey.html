@@ -187,20 +187,34 @@
             ]
         }
 
+        var difference1 = 0;
+        var difference2 = 100;
+        var friend;
+
         console.log(newFriend);
 
         if (newFriend.name && newFriend.image && newFriend.scores[0] && newFriend.scores[1] && newFriend.scores[2] && newFriend.scores[3] && newFriend.scores[4] && newFriend.scores[5] && newFriend.scores[6] && newFriend.scores[7] && newFriend.scores[8] && newFriend.scores[9]) {
 
             $.post("/api/friends", newFriend, function (data) {
-                alert("We found you somepony!");
+                
 
-                // $.get("/api/friends", function (data) {
-                //     data.forEach(function(ele) {
-                //         ele.scores.forEach(function(ele) {
+                $.get("/api/friends", function (data) {
+                    for (var i = 0; i < (data.length-1); i++) {
+                        difference1 = 0;
+                        for (var j = 0; j < data[i].scores.length; j++) {
+                            difference1 = difference1 + (Math.abs(data[i].scores[j] - newFriend.scores[j]));
+                        }
+                        if (difference1 < difference2) {
+                            console.log(`Difference 1 = ${difference1}`);
+                            difference2 = difference1;
+                            friend = data[i].name;
+                            console.log(`New friend: ${friend}`);
+                            console.log(`New difference = ${difference2}`);
+                        }
+                    }
+                })
 
-                //         })
-                //     })
-                // })
+                alert("We found you somepony!" + friend);
 
                 $("#name").val("");
                 $("#image").val("");
