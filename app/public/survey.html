@@ -161,6 +161,25 @@
 
 </div>
 
+<div id="results-modal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h2 class="modal-title"><strong>Your Somepony!</strong></h2>
+            </div>
+            <div class="modal-body">
+                <h2 id="friend-name"></h2>
+                <img id="friend-img" src="" alt="">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </body>
 
 </html>
@@ -190,16 +209,17 @@
         var difference1 = 0;
         var difference2 = 100;
         var friend;
+        var friendID;
 
         console.log(newFriend);
 
         if (newFriend.name && newFriend.image && newFriend.scores[0] && newFriend.scores[1] && newFriend.scores[2] && newFriend.scores[3] && newFriend.scores[4] && newFriend.scores[5] && newFriend.scores[6] && newFriend.scores[7] && newFriend.scores[8] && newFriend.scores[9]) {
 
             $.post("/api/friends", newFriend, function (data) {
-                
+
 
                 $.get("/api/friends", function (data) {
-                    for (var i = 0; i < (data.length-1); i++) {
+                    for (var i = 0; i < (data.length - 1); i++) {
                         difference1 = 0;
                         for (var j = 0; j < data[i].scores.length; j++) {
                             difference1 = difference1 + (Math.abs(data[i].scores[j] - newFriend.scores[j]));
@@ -208,13 +228,20 @@
                             console.log(`Difference 1 = ${difference1}`);
                             difference2 = difference1;
                             friend = data[i].name;
+                            friendID = i;
                             console.log(`New friend: ${friend}`);
                             console.log(`New difference = ${difference2}`);
                         }
                     }
+
+                    $("#friend-name").text(data[friendID].name);
+                    $("#friend-img").attr("src", data[friendID].image);
+                    $("#friend-img").attr("alt", data[friendID].name);
+
+                    $("#results-modal").modal("toggle");
                 })
 
-                alert("We found you somepony!" + friend);
+                // alert("We found you somepony!" + friend);
 
                 $("#name").val("");
                 $("#image").val("");
