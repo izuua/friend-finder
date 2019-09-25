@@ -1,4 +1,4 @@
-# My Little Pony friend-finder
+# My Little Pony Friend Finder
 A web app designed to find your best pony friend!
 
 # Instructions
